@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { db } from '../firebase';
 import { addNewTask, getTask, updateTask, removeTask } from '../firebase/taskController';
+import { AppContext } from '../App';
 
 const task = {
     title: "Este es el título",
@@ -14,9 +15,10 @@ const TaskList = () => {
     const [tasks, setTasks] = useState([]);
     const [mode, setMode] = useState("add");
 
+    const {user} = useContext(AppContext)
+
     const createNewTask = async () => {
-        console.log(task)
-        await addNewTask(task)
+        await addNewTask(task).catch(e => console.log("error!!"))
         initializeTask()
     }
 
@@ -57,6 +59,7 @@ const TaskList = () => {
                 type="text" 
                 value = {task.title}
                 placeholder='título'
+                disabled={!user}
                 className='border shadow outline-none focus: ring ring-sky-200 rounded px-2 py-2 w-full'
                 onChange={(e) => setTask({...task, title: e.target.value})}
                 /> 
@@ -64,11 +67,12 @@ const TaskList = () => {
                 type="text" 
                 rows={3}
                 value = {task.description}
+                disabled={!user}
                 placeholder='Descripción'
                 className='border shadow outline-none focus: ring ring-sky-200 rounded px-2 py-2 w-full '
                 onChange={(e) => setTask({...task, description: e.target.value})}
                 />
-                <button className='bg-sky-400 text-white rounded shadow py-1 hover:bg-sky-500 transition font-semibold' onClick={() => mode === "add" ? createNewTask() : updateExistTask()}>
+                <button className='bg-sky-400 text-white rounded shadow py-1 hover:bg-sky-500 transition font-semibold disabled:bg-sky-200' disabled={!user} onClick={() => mode === "add" ? createNewTask() : updateExistTask()}>
                     {mode === "add" ? "Añadir": "Actualizar" } 
                 </button>
             </div>
@@ -85,6 +89,7 @@ const TaskList = () => {
                     </div>                 
                 </div> )}
             </div>
+            {!user && <p className='text-red-600 '>Necesitas estar logueado para poder leer y añadir tareas</p> }
         </div>
     )
 }
