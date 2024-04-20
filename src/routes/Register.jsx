@@ -38,9 +38,9 @@ const Register = ()  => {
         <div className='flex flex-col gap-4 items-center'>
             <h1 className='text-sky-700 font-semibold text-center'>Registrate para tener acceso a la mejor App del Mundo</h1>
             <form className = "flex flex-col gap-2 max-w-sm" onSubmit={hadleSubmit}>
-                <input className='border border-gray-500 rounded px-2 py-1 outline-none' type="email" value={email} onChange={e => setEmail(e.target.value)} />
-                <input className='border border-gray-500 rounded px-2 py-1 outline-none' type="password" value={password} onChange={e => setPassword(e.target.value)} />
-                <button className='bg-sky-400 py-1 text-white rounded shadow '>Registrate</button>
+                <input placeholder='Email' className='border border-gray-500 rounded px-2 py-1 outline-none' type="email" value={email} onChange={e => setEmail(e.target.value)} />
+                <input placeholder='Password' className='border border-gray-500 rounded px-2 py-1 outline-none' type="password" value={password} onChange={e => setPassword(e.target.value)} />
+                <button className='submit-button'>Aceptar</button>
             </form>
         </div>
     )

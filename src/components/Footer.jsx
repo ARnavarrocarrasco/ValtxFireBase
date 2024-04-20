@@ -16,8 +16,7 @@ const Footer = () => {
             text-pink-500 cursor-pointer hover:bg-sky-50 transition' onClick={() => setRoute('shopping')}>
                 <BsFillCartFill/>
             </div>
-            <div className='bg-sky-200 p-2 text-xl rounded-full
-            text-pink-500 cursor-pointer hover:bg-sky-50 transition' onClick={() => setRoute('taskList')}>
+            <div className='task-list' onClick={() => setRoute('taskList')}>
                 <BsList/>
             </div>
         </footer>

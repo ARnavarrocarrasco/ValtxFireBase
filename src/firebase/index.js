@@ -1,12 +1,11 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 import {getMessaging, getToken} from "firebase/messaging"
 import { getFirestore } from "firebase/firestore";
 
-const vapidKey = "BNorIKqJklUarToLeeVictCQZY0kgI9V7gRbITPzX2EIXiQO4Gfjt43ljfTyxgZzFPkOFkpvHp4-KyIk0xYJ_IA";
+
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -19,13 +18,30 @@ const firebaseConfig = {
   measurementId: "G-JQV4D49G6V"
 };
 
-// Initialize Firebase
-export const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+const devfirebaseConfig = {
+  apiKey: "AIzaSyCfIlLV9J3_3WNHApn0Hf5nHoVn627tIAI",
+  authDomain: "dev-firebase-shopping-d95a6.firebaseapp.com",
+  projectId: "dev-firebase-shopping-d95a6",
+  storageBucket: "dev-firebase-shopping-d95a6.appspot.com",
+  messagingSenderId: "364346397748",
+  appId: "1:364346397748:web:51c0fd4ab67d44732ba661"
+}
 
+// Initialize Firebase
+let app;
+if(process.env.NODE_ENV === "production") {
+  app = initializeApp(firebaseConfig);
+} else {
+  app = initializeApp(devfirebaseConfig);
+}
+
+export {app}
+
+const vapidKeyProd = "BNorIKqJklUarToLeeVictCQZY0kgI9V7gRbITPzX2EIXiQO4Gfjt43ljfTyxgZzFPkOFkpvHp4-KyIk0xYJ_IA";
+const vapidKeyDev = "BNUNXc6cEsEeo2LW28hGVmT5q9l8esrgaGeTEgY5gg82hVmyMewDQwv2qkY0MFxa3DP1Csa37GM-5ChDaMFJFBc";
 export const messaging = getMessaging(app);
 
-getToken(messaging, {vapidKey}).then((currentToken) => {
+getToken(messaging, {vapidKey: process.env.NODE_ENV === "production" ? vapidKeyProd : vapidKeyDev}).then((currentToken) => {
     if (currentToken) {
       // Send the token to your server and update the UI if necessary
       // ...
